@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Registra tu casco · Alertia Biker</title>
+<meta name="theme-color" content="#0D1B2A">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="assets/estilo.css">
+<style>
+.reg{padding-block:40px 70px}
+.reg-grid{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:start}
+@media (max-width:860px){.reg-grid{grid-template-columns:1fr}}
+.lado{background:var(--navy);color:#fff;border-radius:20px;padding:26px;position:sticky;top:84px}
+@media (max-width:860px){.lado{position:static}}
+.lado h1{font-size:30px}
+.lado p{color:#C9D3DE}
+.etapas{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:10px}
+.etapas li{display:flex;gap:12px;align-items:center;color:#8EA0B4;font-weight:700}
+.etapas li span{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;border:2px solid #36506B}
+.etapas li.activa{color:#fff}
+.etapas li.activa span{background:var(--lima);border-color:var(--lima);color:var(--navy)}
+.etapas li.hecha span{background:#2B4A2A;border-color:#2B4A2A;color:var(--lima)}
+.paso-form{display:none}
+.paso-form.activo{display:block}
+.paso-form h2{font-size:26px}
+.nav-form{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+.vis{display:flex;align-items:center;gap:8px;font-size:14px;color:#4B5867;margin-top:2px}
+.vis input{width:18px;height:18px;accent-color:var(--navy)}
+/* Resultado: chip */
+.listo{display:none;text-align:center}
+.listo.activo{display:block}
+.chip{width:300px;margin:18px auto;background:var(--navy);border:7px solid var(--lima);border-radius:28px;padding:22px 20px 18px;color:#fff}
+.chip .t1{font:800 34px/1 var(--f-tit);letter-spacing:.03em}
+.chip .t2{font:800 42px/1 var(--f-tit);color:var(--lima);margin-bottom:8px}
+.chip .qr{background:#fff;padding:12px;border-radius:12px;display:inline-block;margin:8px 0}
+.chip .qr img,.chip .qr canvas{display:block;width:200px;height:200px}
+.chip .esc{font:800 15px var(--f-tit);color:var(--lima);margin-top:8px}
+.chip .en{font-size:13px;color:#C9D3DE}
+.chip .pies{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.chip .pies span{border-radius:999px;padding:5px 12px;font-weight:800;font-size:13px}
+.chip .codigo{font:700 12px monospace;color:#8EA0B4;margin-top:10px;letter-spacing:.15em}
+.acciones-listo{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+@media print{
+  body *{visibility:hidden}
+  .chip,.chip *{visibility:visible}
+  .chip{position:absolute;left:0;top:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="envoltura">
+    <a class="logo" href="./" id="logo">ALERTIA <b>BIKER</b></a>
+    <nav><a class="oc" href="./">Inicio</a><a class="oc" href="/e/DEMO2027">Ficha de ejemplo</a></nav>
+  </div>
+</header>
+
+<main class="envoltura reg">
+  <div class="reg-grid">
+    <aside class="lado">
+      <h1 id="titulo-lado">Registra tu casco</h1>
+      <p id="texto-lado">Gratis y en cinco minutos. Al terminar recibes tu chip QR listo para imprimir.</p>
+      <ol class="etapas" id="etapas">
+        <li class="activa"><span>1</span>Tus datos</li>
+        <li><span>2</span>Ficha médica</li>
+        <li><span>3</span>Tu familia</li>
+        <li><span>4</span>Tu chip</li>
+      </ol>
+    </aside>
+
+    <section class="panel">
+      <form id="form" novalidate>
+        <div class="paso-form activo" data-paso="1">
+          <h2>Tus datos</h2>
+          <div class="fila">
+            <div class="campo"><label for="nombre">Nombre *</label><input id="nombre" required autocomplete="given-name"></div>
+            <div class="campo"><label for="apellido">Apellidos</label><input id="apellido" autocomplete="family-name"></div>
+          </div>
+          <div class="fila">
+            <div class="campo"><label for="celular">Tu celular</label><input id="celular" inputmode="tel" placeholder="669 000 0000" autocomplete="tel"></div>
+            <div class="campo"><label for="moto">Tu moto</label><input id="moto" placeholder="Marca, modelo y color"></div>
+          </div>
+          <div class="campo"><small>Solo tu nombre de pila aparece en la ficha pública.</small></div>
+          <div class="campo" id="bloque-chip" hidden><label for="codigo_activacion">Código de activación de tu chip *</label><input id="codigo_activacion" inputmode="numeric" maxlength="7" placeholder="6 dígitos impresos en tu chip" autocomplete="off"><small id="chip-id-txt"></small></div>
+        </div>
+
+        <div class="paso-form" data-paso="2">
+          <h2>Ficha médica</h2>
+          <p class="aviso">Tú decides qué ve quien te encuentra. Lo demás solo se muestra con el código de personal autorizado de Alertia 724 (piloto).</p>
+          <div class="fila">
+            <div class="campo"><label for="sangre">Tipo de sangre</label>
+              <select id="sangre"><option value="">No sé</option><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option></select>
+              <label class="vis"><input type="checkbox" id="mostrar_sangre" checked> Mostrar en la ficha pública</label></div>
+            <div class="campo"><label for="alerta_critica">Alerta crítica</label><input id="alerta_critica" placeholder="Ej. Alérgico a la penicilina, diabético">
+              <label class="vis"><input type="checkbox" id="mostrar_alerta" checked> Mostrar en la ficha pública</label></div>
+          </div>
+          <div class="campo"><label for="alergias">Alergias</label><input id="alergias" placeholder="Medicamentos, alimentos…"></div>
+          <div class="campo"><label for="padecimientos">Padecimientos</label><input id="padecimientos" placeholder="Asma, epilepsia, hipertensión…"></div>
+          <div class="campo"><label for="medicamentos">Medicamentos que tomas</label><input id="medicamentos"></div>
+          <div class="fila">
+            <div class="campo"><label for="seguro">Seguro médico y póliza</label><input id="seguro"></div>
+            <div class="campo"><label for="medico">Médico tratante</label><input id="medico"></div>
+          </div>
+          <label class="check"><input type="checkbox" id="donador"> Soy donador de órganos</label>
+        </div>
+
+        <div class="paso-form" data-paso="3">
+          <h2>Tu familia</h2>
+          <p class="aviso">Ellos reciben el aviso si alguien escanea tu casco. Avísales que los registraste.</p>
+          <div class="fila">
+            <div class="campo"><label for="contacto1_nombre">Contacto 1 *</label><input id="contacto1_nombre" required placeholder="Nombre"></div>
+            <div class="campo"><label for="contacto1_tel">WhatsApp del contacto 1 *</label><input id="contacto1_tel" required inputmode="tel" placeholder="669 000 0000 o +1 555 000 0000"></div>
+          </div>
+          <div class="campo"><label for="contacto1_parentesco">Parentesco</label><input id="contacto1_parentesco" placeholder="Mamá, pareja, hermano…"></div>
+          <div class="fila">
+            <div class="campo"><label for="contacto2_nombre">Contacto 2</label><input id="contacto2_nombre" placeholder="Nombre"></div>
+            <div class="campo"><label for="contacto2_tel">WhatsApp del contacto 2</label><input id="contacto2_tel" inputmode="tel"></div>
+          </div>
+          <input type="hidden" id="contacto2_parentesco">
+          <h3 style="margin-top:12px">Tu consentimiento</h3>
+          <label class="check"><input type="checkbox" id="consentimiento_datos"> <span>Autorizo de forma expresa que Alertia 724 trate mis datos de salud para mostrarlos en una emergencia, en los niveles que elegí. *</span></label>
+          <label class="check"><input type="checkbox" id="consentimiento_alertas"> <span>Autorizo que se avise a mis contactos con la hora y la ubicación aproximada cuando se escanee mi casco. *</span></label>
+          <label class="check"><input type="checkbox" id="consentimiento_promos"> <span>Quiero recibir información de Alertia 724 (opcional).</span></label>
+          <p class="aviso">Aviso de privacidad simplificado: el responsable de tus datos es Alertia 724 (Agustín Borrego Torres), Mazatlán, Sinaloa. Los usamos solo para atenderte en una emergencia y avisar a tus contactos. Puedes acceder, corregir, cancelar u oponerte a su uso (derechos ARCO) escribiendo a alertiamedic@gmail.com. Aviso integral: en preparación para el piloto.</p>
+        </div>
+
+        <p class="error" id="error" role="alert"></p>
+        <div class="nav-form">
+          <button type="button" class="btn btn-borde" id="atras" style="color:var(--navy);border-color:var(--gris2);visibility:hidden">Atrás</button>
+          <button type="button" class="btn btn-lima" id="siguiente">Siguiente</button>
+        </div>
+      </form>
+
+      <div class="listo" id="listo">
+        <h2 id="listo-titulo">¡Listo! Este es tu chip</h2>
+        <p id="listo-texto">Imprímelo en vinil y pégalo en la parte trasera de tu casco. Escanéalo para probarlo.</p>
+        <div class="chip" id="chip">
+          <div class="t1">ALERTIA</div><div class="t2">BIKER</div>
+          <div class="qr" id="qr"></div>
+          <div class="esc">EN EMERGENCIA, ESCANÉAME</div>
+          <div class="en">IN EMERGENCY, SCAN ME</div>
+          <div class="pies"><span style="background:#E5383B">Llama al 911</span><span style="background:var(--lima);color:var(--navy)">Alertia 724</span></div>
+          <div class="codigo" id="codigo"></div>
+        </div>
+        <div class="acciones-listo">
+          <button class="btn btn-lima" onclick="window.print()">Imprimir mi chip</button>
+          <a class="btn btn-navy" id="ver-ficha" href="#">Probar mi ficha</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="assets/app.js"></script>
+<script>
+document.getElementById('logo').insertAdjacentHTML('afterbegin', LOGO);
+let paso = 1;
+// Chip de fábrica: llega desde /e/<ID> con ?chip=<ID>
+const CHIP = (new URLSearchParams(location.search).get('chip') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+if (CHIP) {
+  document.getElementById('bloque-chip').hidden = false;
+  document.getElementById('chip-id-txt').textContent = 'Chip ' + CHIP + ' · el código viene junto al QR de tu chip.';
+  document.getElementById('titulo-lado').textContent = 'Activa tu chip';
+  document.getElementById('texto-lado').textContent = 'Tu chip ya está impreso. Llena tus datos y queda activo al instante.';
+}
+const $ = id => document.getElementById(id);
+const pasos = document.querySelectorAll('.paso-form');
+const etapas = document.querySelectorAll('#etapas li');
+
+function mostrar(n) {
+  paso = n;
+  pasos.forEach(p => p.classList.toggle('activo', +p.dataset.paso === n));
+  etapas.forEach((e, i) => { e.classList.toggle('activa', i + 1 === n); e.classList.toggle('hecha', i + 1 < n); });
+  $('atras').style.visibility = n > 1 && n < 4 ? 'visible' : 'hidden';
+  $('siguiente').textContent = n === 3 ? 'Generar mi chip' : 'Siguiente';
+  $('error').textContent = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function validar(n) {
+  if (n === 1 && !$('nombre').value.trim()) return 'Escribe tu nombre.';
+  if (n === 1 && CHIP && $('codigo_activacion').value.replace(/\D/g, '').length !== 6) return 'Escribe los 6 dígitos del código de activación de tu chip.';
+  if (n === 3) {
+    if (!$('contacto1_nombre').value.trim() || $('contacto1_tel').value.replace(/\D/g, '').length < 10) return 'Agrega al menos un contacto con WhatsApp de 10 dígitos.';
+    if (!$('consentimiento_datos').checked || !$('consentimiento_alertas').checked) return 'Para activar tu chip necesitamos los dos consentimientos marcados con *.';
+  }
+  return '';
+}
+
+$('atras').onclick = () => mostrar(paso - 1);
+$('siguiente').onclick = async () => {
+  const err = validar(paso);
+  if (err) { $('error').textContent = err; return; }
+  if (paso < 3) return mostrar(paso + 1);
+  const campos = ['nombre','apellido','celular','moto','sangre','alerta_critica','alergias','padecimientos','medicamentos','seguro','medico',
+    'contacto1_nombre','contacto1_parentesco','contacto1_tel','contacto2_nombre','contacto2_parentesco','contacto2_tel'];
+  const p = {};
+  campos.forEach(c => p[c] = $(c).value.trim());
+  if (CHIP) { p.chip_id = CHIP; p.codigo_activacion = $('codigo_activacion').value.replace(/\D/g, ''); }
+  ['mostrar_sangre','mostrar_alerta','donador','consentimiento_datos','consentimiento_alertas','consentimiento_promos'].forEach(c => p[c] = $(c).checked);
+  $('siguiente').disabled = true; $('siguiente').textContent = 'Generando…';
+  try {
+    const id = await rpc('biker_registrar', { p });
+    if (!id) throw new Error('el código de activación no coincide con el de tu chip. Revísalo e intenta de nuevo.');
+    const url = location.origin + '/e/' + id;
+    if (CHIP) {
+      $('listo-titulo').textContent = '¡Tu chip está activo!';
+      $('listo-texto').textContent = 'Pega tu chip en la parte trasera de tu casco. Escanéalo con tu celular para comprobar que ya muestra tu ficha.';
+    }
+    new QRCode($('qr'), { text: url, width: 400, height: 400, colorDark: '#0D1B2A', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H });
+    $('codigo').textContent = 'alertia-biker.vercel.app';
+    $('ver-ficha').href = '/e/' + id;
+    $('form').style.display = 'none';
+    $('listo').classList.add('activo');
+    etapas.forEach((e, i) => { e.classList.toggle('activa', i === 3); e.classList.toggle('hecha', i < 3); });
+  } catch (e) {
+    if (CHIP && /activaci|intentos/i.test(e.message)) { mostrar(1); $('codigo_activacion').focus(); }
+    $('error').textContent = 'No se pudo registrar: ' + e.message;
+    $('siguiente').disabled = false; $('siguiente').textContent = paso === 3 ? 'Generar mi chip' : 'Siguiente';
+  }
+};
+</script>
+</body>
+</html>

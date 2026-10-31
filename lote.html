@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lotes de chips · Centro Alertia</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/assets/estilo.css">
+<style>
+body{background:var(--gris)}
+.cab{background:var(--navy);color:#fff;padding:18px max(18px,env(safe-area-inset-left))}
+.cab .envoltura{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.cab h1{font-size:22px;margin:0}
+main{padding-block:24px 60px}
+.form-lote{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:12px;align-items:end}
+@media (max-width:760px){.form-lote{grid-template-columns:1fr}}
+.hoja{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;margin-top:24px}
+.chip{background:var(--navy);border:6px solid var(--lima);border-radius:22px;padding:16px 14px 12px;color:#fff;text-align:center;break-inside:avoid}
+.t1{font:800 24px/1 var(--f-tit)}.t2{font:800 30px/1 var(--f-tit);color:var(--lima);margin-bottom:6px}
+.qr{background:#fff;padding:8px;border-radius:10px;display:inline-block}
+.qr img,.qr canvas{display:block;width:150px;height:150px}
+.esc{font:800 12px var(--f-tit);color:var(--lima);margin-top:6px}
+.act{margin-top:8px;background:#fff;color:var(--navy);border-radius:10px;padding:6px;font-size:12px}
+.act b{display:block;font:800 22px var(--f-tit);letter-spacing:.18em}
+.barra-acc{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+@media print{
+  .cab,.panel,.barra-acc{display:none!important}
+  body{background:#fff}
+  .hoja{grid-template-columns:repeat(3,1fr);gap:10px;margin:0}
+  .chip{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<header class="cab"><div class="envoltura"><a class="logo" href="/" id="logo">ALERTIA <b>BIKER</b></a><h1>Lotes de chips de fábrica</h1></div></header>
+<main class="envoltura">
+  <form class="panel form-lote" id="f">
+    <div class="campo" style="margin:0"><label for="lote">Nombre del lote o evento</label><input id="lote" value="Hackathon 2026" maxlength="40"></div>
+    <div class="campo" style="margin:0"><label for="cant">Cantidad</label><input id="cant" type="number" min="1" max="60" value="9"></div>
+    <div class="campo" style="margin:0"><label for="cod">Código del centro</label><input id="cod" type="password" autocomplete="off"></div>
+    <button class="btn btn-lima">Generar lote</button>
+  </form>
+  <p class="error" id="err"></p>
+  <div class="barra-acc" id="acc" hidden>
+    <button class="btn btn-navy" onclick="window.print()">Imprimir hoja de chips</button>
+    <span style="align-self:center;color:#4B5867">Cada chip trae su código de activación. Al escanearlo por primera vez, el motociclista lo activa con sus datos.</span>
+  </div>
+  <div class="hoja" id="hoja"></div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="/assets/app.js"></script>
+<script>
+document.getElementById('logo').insertAdjacentHTML('afterbegin', LOGO);
+document.getElementById('f').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = document.getElementById('err'); err.textContent = '';
+  try {
+    const chips = await rpc('biker_generar_lote', { p_codigo: document.getElementById('cod').value.trim(),
+      p_cantidad: +document.getElementById('cant').value, p_lote: document.getElementById('lote').value.trim() });
+    const hoja = document.getElementById('hoja');
+    hoja.innerHTML = chips.map((c, i) => `<div class="chip"><div class="t1">ALERTIA</div><div class="t2">BIKER</div>
+      <div class="qr" id="q${i}"></div><div class="esc">EN EMERGENCIA, ESCANÉAME</div>
+      <div class="act">Código de activación<b>${esc(c.codigo)}</b></div></div>`).join('');
+    chips.forEach((c, i) => new QRCode(document.getElementById('q' + i), { text: location.origin + '/e/' + c.id, width: 300, height: 300, colorDark: '#0D1B2A', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H }));
+    document.getElementById('acc').hidden = false;
+  } catch (x) { err.textContent = x.message; }
+});
+</script>
+</body>
+</html>

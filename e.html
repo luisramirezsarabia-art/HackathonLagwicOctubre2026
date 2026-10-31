@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ficha de emergencia · Alertia Biker</title>
+<meta name="theme-color" content="#E5383B">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="/assets/estilo.css">
+<style>
+body{background:var(--navy);color:#fff}
+.top{background:var(--rojo);padding:14px max(16px,env(safe-area-inset-left)) 12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.top b{font:800 18px var(--f-tit);letter-spacing:.06em}
+.top button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:999px;padding:6px 12px;font:700 14px var(--f-txt);cursor:pointer}
+.ficha{max-width:520px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-left)) 40px}
+.quien{display:flex;gap:14px;align-items:center;margin:6px 0 16px}
+.avatar{width:64px;height:64px;border-radius:50%;background:var(--navy3);display:grid;place-items:center;font:800 28px var(--f-tit);color:var(--lima);flex:0 0 64px}
+.quien h1{font-size:30px;margin:0}
+.quien p{margin:2px 0 0;color:#9FB0C2}
+.datos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.dato{background:var(--navy2);border:1px solid var(--navy3);border-radius:14px;padding:12px 14px}
+.dato small{display:block;color:#9FB0C2;font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+.dato b{font:800 26px var(--f-tit);color:var(--lima)}
+.dato.ancho{grid-column:1/-1}
+.dato.ancho b{font-size:19px;color:#fff}
+.alerta{background:#3A1418;border-color:#7A2A30}
+.alerta b{color:#FFB3B5 !important}
+.botones{display:grid;gap:10px}
+.b{display:flex;align-items:center;gap:14px;border-radius:16px;padding:16px 18px;text-decoration:none;font:800 20px var(--f-tit);border:0;cursor:pointer;width:100%;text-align:left}
+.b small{display:block;font:600 14px var(--f-txt);opacity:.85}
+.b .ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:0 0 40px;font-size:20px}
+.b-911{background:var(--rojo);color:#fff}.b-911 .ic{background:rgba(255,255,255,.2)}
+.b-wa{background:var(--lima);color:var(--navy)}.b-wa .ic{background:var(--navy);color:var(--lima)}
+.b-tel{background:#fff;color:var(--navy)}.b-tel .ic{background:var(--gris)}
+.b-alertia{background:var(--navy2);color:#fff;border:1px solid var(--navy3)}.b-alertia .ic{background:var(--navy3)}
+.nota{font-size:13px;color:#8EA0B4;margin:8px 2px 18px}
+.para{margin-top:22px;background:var(--navy2);border:1px solid var(--navy3);border-radius:16px;padding:16px}
+.para h2{font-size:18px;margin:0 0 10px;color:var(--lima)}
+.para form{display:flex;gap:8px}
+.para input{background:#0A1622;border-color:var(--navy3);color:#fff}
+.clinica{display:none;margin-top:12px;display:grid;gap:8px}
+.clinica[hidden]{display:none}
+.clinica div{border-top:1px solid var(--navy3);padding-top:8px}
+.clinica small{color:#9FB0C2;text-transform:uppercase;font-size:12px;letter-spacing:.08em;display:block}
+.ubic{margin:0 0 14px;display:grid;gap:6px;justify-items:start}
+.estado{font-size:14px;color:var(--lima);min-height:1.3em;margin:0 2px}
+.vacio{text-align:center;padding:60px 10px;color:#C9D3DE}
+.pie-f{text-align:center;color:#6F8296;font-size:13px;margin-top:26px}
+.pie-f a{color:var(--lima)}
+</style>
+</head>
+<body>
+<div class="top"><b id="t-emerg">⚠ EMERGENCIA · ALERTIA BIKER</b><button id="idioma" type="button">English</button></div>
+<main class="ficha" id="ficha"><p class="vacio">Cargando ficha…</p></main>
+
+<script src="/assets/app.js"></script>
+<script>
+const id = (new URLSearchParams(location.search).get('id') || location.pathname.split('/').filter(Boolean).pop() || '').toUpperCase();
+let F = null, lat = null, lng = null, en = false;
+
+const T = {
+  es: { emerg: '⚠ EMERGENCIA · ALERTIA BIKER', sangre: 'Tipo de sangre', alerta: 'Alerta crítica', llamar911: 'Llamar al 911', s911: 'Emergencias', wa: 'Avisar a', swa: 'WhatsApp con tu ubicación', tel: 'Llamar a', alertia: 'Llamar a Alertia 724', salertia: 'Ambulancias 24/7 · Mazatlán',
+        nota: 'Esta página usa tu ubicación aproximada, si la permites, para avisar al centro Alertia 724 y a la familia. Solo se usa para esta emergencia.', para: '¿Eres personal autorizado de Alertia?', codigo: 'Código de personal (piloto)', ver: 'Ver ficha clínica',
+        alergias: 'Alergias', padecimientos: 'Padecimientos', medicamentos: 'Medicamentos', seguro: 'Seguro', medico: 'Médico tratante', donador: 'Donador de órganos', si: 'Sí', no: 'No', nd: 'No registrado',
+        noexiste: 'Este chip no está activo.', ubic: '✓ Ubicación compartida con el centro Alertia y lista para la familia', bubic: '📍 Compartir mi ubicación', buscando: 'Obteniendo tu ubicación…',
+        negada: 'La ubicación está bloqueada en este celular. iPhone: Ajustes › Privacidad › Localización › Safari › «Mientras se usa». Android: toca el candado junto a la dirección › Permisos › Ubicación. Si abriste el QR desde una app lectora, ábrelo en Safari o Chrome.',
+        fallo: 'No se pudo obtener la ubicación. Revisa que el GPS esté encendido e intenta de nuevo.', msg: (n, u) => `🚨 ALERTIA BIKER · AVISO IMPORTANTE\nEl casco de ${n} acaba de ser escaneado por alguien que podría estar ayudándole.${u ? `\nUbicación: ${u}` : ''}\nPor favor comunícate de inmediato. En emergencia marca 911. Centro Alertia 724: 669 270 18 10.` },
+  en: { emerg: '⚠ EMERGENCY · ALERTIA BIKER', sangre: 'Blood type', alerta: 'Critical alert', llamar911: 'Call 911', s911: 'Emergency services (Mexico)', wa: 'Notify', swa: 'WhatsApp with your location', tel: 'Call', alertia: 'Call Alertia 724 ambulances', salertia: '24/7 · Mazatlán',
+        nota: 'If you allow it, this page uses your approximate location to alert the Alertia 724 center and the family. It is only used for this emergency.', para: 'Authorized Alertia staff?', codigo: 'Staff code (pilot)', ver: 'Open clinical record',
+        alergias: 'Allergies', padecimientos: 'Conditions', medicamentos: 'Medications', seguro: 'Insurance', medico: 'Doctor', donador: 'Organ donor', si: 'Yes', no: 'No', nd: 'Not provided',
+        noexiste: 'This chip is not active.', ubic: '✓ Location shared with the Alertia center and ready for the family', bubic: '📍 Share my location', buscando: 'Getting your location…',
+        negada: 'Location is blocked on this phone. iPhone: Settings › Privacy › Location Services › Safari › “While Using”. Android: tap the lock next to the address › Permissions › Location. If you opened the QR from a scanner app, open it in Safari or Chrome.',
+        fallo: 'Could not get your location. Make sure GPS is on and try again.', msg: (n, u) => `🚨 ALERTIA BIKER · IMPORTANT\n${n}'s helmet was just scanned by someone who may be helping.${u ? `\nLocation: ${u}` : ''}\nPlease get in touch now. Emergency: 911. Alertia 724: +52 669 270 18 10.` }
+};
+const t = k => (en ? T.en : T.es)[k];
+
+function mapa() { return lat ? `https://maps.google.com/?q=${lat.toFixed(5)},${lng.toFixed(5)}` : ''; }
+
+function pintar() {
+  if (!F) return;
+  document.getElementById('t-emerg').textContent = t('emerg');
+  document.getElementById('idioma').textContent = en ? 'Español' : 'English';
+  const c = [[F.contacto1_nombre, F.contacto1_parentesco, F.contacto1_tel], [F.contacto2_nombre, F.contacto2_parentesco, F.contacto2_tel]].filter(x => x[0] && x[2]);
+  const wa = c.map(([n, p, tel]) => `<a class="b b-wa" data-ev="whatsapp" data-tel="${esc(tel)}" href="https://wa.me/${telWA(tel)}?text=${encodeURIComponent(t('msg')(F.nombre, mapa()))}" target="_blank" rel="noopener"><span class="ic">✆</span><span>${t('wa')} ${esc(n)}${p ? ' · ' + esc(p) : ''}<small>${t('swa')}</small></span></a>`).join('');
+  const tel = c.map(([n, p, tel]) => `<a class="b b-tel" data-ev="llamada_familia" href="tel:${esc(tel)}"><span class="ic">☎</span><span>${t('tel')} ${esc(n)}<small>${esc(tel)}</small></span></a>`).join('');
+  document.getElementById('ficha').innerHTML = `
+    <div class="quien"><div class="avatar">${esc(F.nombre[0] || '?')}</div><div><h1>${esc(F.nombre)}</h1><p>${esc(F.moto || '')}</p></div></div>
+    <div class="datos">
+      ${F.sangre ? `<div class="dato"><small>${t('sangre')}</small><b>${esc(F.sangre)}</b></div>` : ''}
+      ${F.alerta_critica ? `<div class="dato ancho alerta"><small>${t('alerta')}</small><b>${esc(F.alerta_critica)}</b></div>` : ''}
+    </div>
+    <div class="ubic" id="ubic"><button type="button" class="btn btn-borde btn-chico" id="bubic" ${lat ? 'hidden' : ''}>${t('bubic')}</button><p class="estado" id="estado">${lat ? t('ubic') : ''}</p></div>
+    <div class="botones">
+      <a class="b b-911" data-ev="llamada_911" href="tel:911"><span class="ic">✚</span><span>${t('llamar911')}<small>${t('s911')}</small></span></a>
+      ${wa}${tel}
+      <a class="b b-alertia" href="tel:${ALERTIA_TEL}"><span class="ic">✱</span><span>${t('alertia')}<small>${t('salertia')}</small></span></a>
+    </div>
+    <p class="nota">${t('nota')}</p>
+    <div class="para">
+      <h2>${t('para')}</h2>
+      <form id="fpara"><input id="cod" inputmode="numeric" autocomplete="off" placeholder="${t('codigo')}" aria-label="${t('codigo')}"><button class="btn btn-lima btn-chico" type="submit">${t('ver')}</button></form>
+      <p class="error" id="perr"></p>
+      <div class="clinica" id="clinica" hidden></div>
+    </div>
+    <p class="pie-f">Alertia Biker · <a href="/">alertia biker</a> · Alertia 724</p>`;
+  document.querySelectorAll('[data-ev]').forEach(a => a.addEventListener('click', async ev => {
+    if (a.dataset.ev === 'whatsapp' && !lat) {
+      ev.preventDefault();            // primero intenta la ubicación (máx. 6 s) y luego abre WhatsApp
+      await pedirUbicacion(6000);
+      rpc('biker_evento', { p_id: id, p_tipo: 'whatsapp', p_lat: lat, p_lng: lng }).catch(() => {});
+      location.href = `https://wa.me/${telWA(a.dataset.tel)}?text=${encodeURIComponent(t('msg')(F.nombre, mapa()))}`;
+      return;
+    }
+    rpc('biker_evento', { p_id: id, p_tipo: a.dataset.ev, p_lat: lat, p_lng: lng }).catch(() => {});
+  }));
+  const bu = document.getElementById('bubic');
+  if (bu) bu.onclick = () => pedirUbicacion(15000);
+  document.getElementById('fpara').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    try {
+      const r = await rpc('biker_ficha_clinica', { p_id: id, p_codigo: document.getElementById('cod').value.trim() });
+      const fila = (k, v) => `<div><small>${t(k)}</small>${esc(v || t('nd'))}</div>`;
+      const cl = document.getElementById('clinica');
+      cl.innerHTML = fila('sangre', r.sangre) + fila('alergias', r.alergias) + fila('padecimientos', r.padecimientos) + fila('medicamentos', r.medicamentos) + fila('seguro', r.seguro) + fila('medico', r.medico) + fila('donador', r.donador ? t('si') : t('no'));
+      cl.hidden = false;
+      document.getElementById('perr').textContent = '';
+    } catch (e) { document.getElementById('perr').textContent = e.message; }
+  });
+}
+
+document.getElementById('idioma').onclick = () => { en = !en; pintar(); };
+
+// Pide la ubicación; si llega, la agrega al escaneo y actualiza los enlaces. Devuelve true/false.
+function pedirUbicacion(ms) {
+  return new Promise(res => {
+    const e = document.getElementById('estado');
+    if (!('geolocation' in navigator)) { if (e) e.textContent = t('fallo'); return res(false); }
+    if (e && !lat) e.textContent = t('buscando');
+    let listo = false;
+    const fin = ok => { if (!listo) { listo = true; res(ok); } };
+    setTimeout(() => fin(false), ms + 500);
+    navigator.geolocation.getCurrentPosition(p => {
+      lat = p.coords.latitude; lng = p.coords.longitude;
+      rpc('biker_ubicar', { p_id: id, p_lat: lat, p_lng: lng }).catch(() => {});
+      ubicacionLista(); fin(true);
+    }, err => {
+      if (e) e.textContent = err.code === 1 ? t('negada') : t('fallo');
+      fin(false);
+    }, { enableHighAccuracy: false, timeout: ms, maximumAge: 120000 });
+  });
+}
+
+// Al llegar la ubicación solo se actualizan el aviso y los enlaces de WhatsApp (no se redibuja la ficha)
+function ubicacionLista() {
+  const e = document.getElementById('estado');
+  if (e) e.textContent = t('ubic');
+  const bu = document.getElementById('bubic');
+  if (bu) bu.hidden = true;
+  document.querySelectorAll('.b-wa').forEach(a => { a.href = `https://wa.me/${telWA(a.dataset.tel)}?text=${encodeURIComponent(t('msg')(F.nombre, mapa()))}`; });
+}
+
+(async () => {
+  try {
+    F = await rpc('biker_ficha_publica', { p_id: id });
+  } catch (e) { F = null; }
+  if (!F) {
+    let estado = 'no_existe';
+    try { estado = await rpc('biker_estado_chip', { p_id: id }); } catch (e) {}
+    if (estado === 'sin_activar') {
+      // Chip de fábrica que todavía no tiene dueño: invitar a activarlo
+      document.querySelector('.top').style.background = 'var(--navy2)';
+      document.getElementById('t-emerg').textContent = 'ALERTIA BIKER · CHIP NUEVO';
+      document.getElementById('idioma').style.display = 'none';
+      document.getElementById('ficha').innerHTML = `
+        <div class="vacio" style="padding:30px 6px">
+          <img src="/assets/alertin-cara.jpg" alt="Alertín" style="width:150px;height:150px;object-fit:cover;border-radius:50%;margin:0 auto 18px;border:4px solid var(--lima)">
+          <h1 style="font-size:28px;color:#fff">¡Tu chip está listo para activarse!</h1>
+          <p>Este chip Alertia Biker todavía no tiene dueño. Actívalo en 3 minutos con tus datos y el código de activación impreso en tu chip.</p>
+          <a class="btn btn-lima" style="margin-top:12px" href="/registro?chip=${encodeURIComponent(id)}">Activar mi chip</a>
+          <p style="font-size:14px;margin-top:22px">¿Encontraste a alguien herido? Este chip aún no tiene datos: llama al <a href="tel:911" style="color:var(--lima)">911</a>.</p>
+        </div>`;
+      return;
+    }
+    document.getElementById('ficha').innerHTML = `<p class="vacio">${t('noexiste')}<br><br><a class="btn btn-lima" href="tel:911">911</a></p>`;
+    return;
+  }
+  en = !(navigator.language || 'es').toLowerCase().startsWith('es');
+  pintar();
+  // Registra el escaneo de inmediato; la ubicación se agrega en cuanto llegue (biker_ubicar).
+  await rpc('biker_evento', { p_id: id, p_tipo: 'escaneo', p_lat: null, p_lng: null }).catch(() => {});
+  pedirUbicacion(12000);
+})();
+</script>
+</body>
+</html>

@@ -122,3 +122,18 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.biker-home .btn{transition:none}.biker-home .btn:hover{transform:none}}
 .ambulance-image .official-seal{position:absolute;top:20px;left:20px;width:80px;height:80px;object-fit:contain;z-index:2;filter:drop-shadow(0 2px 8px #0d1b2a99)}
 
+/* Ajustes visuales: Alertín sin rótulos, fotografías editoriales y video compacto. */
+.biker-home .hero-art{border:0;border-radius:0;background:transparent}
+.biker-home .hero-art::after{display:none}
+.biker-home .hero-mascot{border-radius:0;mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 7%,#000 88%,transparent);mask-composite:intersect}
+.journey .step-photo{width:100%;height:260px;object-fit:cover;object-position:50% 35%;margin-bottom:24px;border-radius:5px}
+.journey article{border-top:0;padding-top:0}
+.journey article:nth-child(2) .step-photo{object-position:50% 30%}
+.journey article:nth-child(3) .step-photo{object-position:50% 40%}
+.journey .step-number{font-size:28px;margin-bottom:18px;color:#4e6d12}
+.explainer-video{margin:28px 0 0;display:flex;align-items:center;gap:20px;max-width:390px}
+.explainer-video video{display:block;width:150px;max-width:44%;height:auto;aspect-ratio:9/16;background:var(--ink);border-radius:7px;object-fit:contain}
+.explainer-video figcaption{display:grid;gap:8px;font-size:13px;color:var(--muted)}
+.explainer-video strong{font-size:16px;color:var(--ink)}
+@media(max-width:760px){.journey article{padding:0}.journey .step-number{position:static;font-size:24px;margin:0 0 14px}.journey .step-photo{height:280px}.explainer-video{margin-bottom:12px}}
+.ambulance-image .retouch-label{display:block;font-size:10px;color:#cad4dc;margin-top:12px}.ambulance-image img:not(.official-seal){object-position:50% 50%}

@@ -1,0 +1,123 @@
+/* Alertia Biker: presentación premium, aislada de los flujos de la plataforma. */
+.biker-home{--ink:#0d1b2a;--surface:#f0f2f3;--muted:#53606b;--line:#d4dade;background:var(--surface);font-size:17px}
+.biker-home .envoltura{max-width:1280px;padding-inline:40px}
+.biker-home a:focus-visible,.biker-home summary:focus-visible{outline:3px solid #548700;outline-offset:5px}
+.biker-home :is(header,.biker-hero,.privacy-section,.premium-footer) a:focus-visible{outline-color:var(--lima)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:fixed;top:8px;left:16px;transform:translateY(-150%);z-index:100;background:var(--lima);color:var(--ink);padding:12px 20px;font-weight:700}
+.skip-link:focus{transform:translateY(0)}
+.biker-home .nav{background:rgba(13,27,42,.97);border-color:#ffffff18;backdrop-filter:blur(16px)}
+.biker-home .nav .envoltura{height:92px;gap:24px}
+.biker-home .logo{font-size:19px;letter-spacing:.015em;gap:12px;flex-shrink:0}
+.brand-mark{width:40px;height:40px;background:var(--lima);border-radius:8px;stroke:var(--ink);stroke-width:2;fill:none}
+.logo small{display:block;font:600 8px/1.6 var(--f-txt);letter-spacing:.2em;color:#b5c1ca;margin-top:4px}
+.biker-home .nav nav{gap:28px}
+.biker-home .nav nav a{font-size:14px;font-weight:500}
+.biker-home .btn{border-radius:5px;padding:17px 24px;gap:28px;font-size:16px;box-shadow:none;transition:background .2s,transform .2s}
+.biker-home .btn:hover{box-shadow:none;background:#bdff3d;transform:translateY(-2px)}
+.biker-home .btn-chico{padding:12px 18px;font-size:14px;gap:20px}
+.biker-home .btn-navy{background:var(--ink);color:white}
+.biker-home .btn-navy:hover{background:#20384b}
+.biker-home .btn span{font-size:21px;font-weight:400}
+.biker-hero{background:var(--ink);color:#fff;overflow:hidden}
+.hero-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;padding-block:64px 56px;align-items:center}
+.eyebrow{font:700 11px/1.5 var(--f-txt);letter-spacing:.18em;margin:0 0 24px;color:#4e6d12}
+.biker-hero .eyebrow,.privacy-section .eyebrow{color:var(--lima)}
+.status-dot{display:inline-block;width:7px;height:7px;background:var(--lima);border-radius:50%;margin-right:8px}
+.biker-home h1{font-size:clamp(48px,5.3vw,74px);line-height:1.04;letter-spacing:-.065em;font-weight:800;margin:0}
+.biker-home h1 em{font-style:normal;color:var(--lima)}
+.hero-tagline{font:600 21px/1.4 var(--f-tit);margin:28px 0 14px;letter-spacing:-.03em}
+.hero-description{font-size:18px;line-height:1.65;color:#b9c5cf;max-width:43ch;margin:0}
+.hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:24px;margin-top:28px}
+.text-link{display:inline-flex;align-items:center;gap:16px;color:#fff;text-decoration:none;border-bottom:1px solid #ffffff40;padding-block:10px;font-size:15px;font-weight:600}
+.text-link:hover{color:var(--lima);border-color:var(--lima)}
+.hero-assurance{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:28px;color:#b9c5cf;font-size:12px}
+.hero-assurance span::before{content:'✓';color:var(--lima);margin-right:6px}
+.hero-art{position:relative;height:560px;border:1px solid #ffffff24;border-radius:8px;isolation:isolate;background:#152536}
+.hero-mascot{width:100%;height:100%;object-fit:cover;object-position:50% 39%;border-radius:7px}
+.hero-art::after{content:'';position:absolute;inset:0;z-index:1;border-radius:7px;background:linear-gradient(180deg,rgba(13,27,42,.55),transparent 26%,transparent 60%,rgba(13,27,42,.92))}
+.art-label{position:absolute;left:24px;right:24px;top:20px;z-index:2;display:flex;justify-content:space-between;gap:12px;font-size:9px;font-weight:700;letter-spacing:.16em;color:white}
+.art-bottom{position:absolute;bottom:28px;left:24px;right:24px;z-index:2;display:flex;gap:12px;align-items:center;font-size:13px;color:#c4cdd5;line-height:1.5}
+.art-bottom strong{color:white;font-weight:600}
+.cross-symbol{font-size:40px;font-weight:400;color:var(--lima);line-height:1}
+.chip-callout{position:absolute;left:-28px;bottom:112px;z-index:3;display:flex;align-items:center;gap:14px;padding:18px 20px;background:var(--lima);color:var(--ink);border-radius:4px;box-shadow:0 8px 32px #0003}
+.chip-callout svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2}
+.chip-callout div{font-size:9px;letter-spacing:.12em}
+.chip-callout strong{display:block;font-size:11px;letter-spacing:.025em;margin-top:4px}
+.hero-baseline{display:flex;justify-content:space-between;gap:20px;padding-block:20px;border-top:1px solid #ffffff1a;font-size:9px;letter-spacing:.16em;color:#9aabb9}
+.hero-baseline a{color:#d0d9e1;text-decoration:none;display:flex;gap:20px}
+.benefit-strip{border-bottom:1px solid var(--line);background:#e6eaed}
+.benefit-strip .envoltura{display:grid;grid-template-columns:repeat(3,1fr)}
+.benefit-strip .envoltura>div{display:flex;align-items:center;gap:16px;padding:28px 0;font-size:15px}
+.benefit-strip strong{font:500 12px var(--f-tit);color:#5d6b76}
+.premium-section{padding-block:104px;scroll-margin-top:100px}
+.biker-home h2{font-size:clamp(32px,3.5vw,48px);font-weight:700;letter-spacing:-.05em;line-height:1.12}
+.section-heading{display:grid;grid-template-columns:1.3fr 1fr;gap:80px;align-items:end;margin-bottom:48px}
+.section-heading h2 span{color:var(--muted)}
+.section-heading>p{color:var(--muted);max-width:36ch;margin:0 0 6px;font-size:18px}
+.journey{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.journey article{border-top:1px solid #a8b3bc;padding-top:24px;position:relative}
+.step-number{display:block;font:500 42px var(--f-tit);letter-spacing:-.05em;color:#637581;margin-bottom:32px}
+.journey h3{font-size:20px;letter-spacing:-.035em;font-weight:600}
+.journey p{color:var(--muted);font-size:16px;max-width:32ch;line-height:1.65}
+.step-caption{display:block;font-size:9px;letter-spacing:.16em;font-weight:700;margin-top:28px}
+.dark-link{display:inline-flex;align-items:center;gap:28px;border-bottom:1px solid var(--ink);padding-block:12px;font-weight:700;font-size:14px;text-decoration:none}
+.dark-link:hover{color:#4e6d12;border-color:#4e6d12}
+.how-section .dark-link{margin-top:40px}
+.privacy-section{background:var(--ink);color:white}
+.privacy-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.privacy-copy h2 em{color:var(--lima);font-style:normal}
+.privacy-copy>p:not(.eyebrow){color:#b9c5cf;max-width:39ch;margin:24px 0;font-size:18px}
+.access-levels article{display:flex;gap:20px;border-top:1px solid #ffffff26;padding:28px 0}
+.access-levels article:last-child{border-bottom:1px solid #ffffff26}
+.access-index{font:500 11px var(--f-tit);color:#9eafbe;padding-top:4px}
+.access-label{margin:0 0 10px;font-size:9px;letter-spacing:.16em;color:var(--lima);font-weight:600}
+.access-levels h3{font-size:20px;font-weight:600;letter-spacing:-.02em}
+.access-levels h3+p{font-size:15px;color:#b9c5cf;margin:12px 0 0;line-height:1.6}
+.access-symbol{margin-left:auto;color:var(--lima);font-size:22px}
+.backing-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.ambulance-image{position:relative;margin:0;height:460px;background:#152536;border-radius:6px;overflow:hidden}
+.ambulance-image::after{content:'';position:absolute;inset:30% 0 0;background:linear-gradient(transparent,#0d1b2aee)}
+.ambulance-image img{height:100%;width:100%;object-fit:cover}
+.ambulance-image figcaption{position:absolute;left:28px;right:28px;bottom:28px;z-index:1;color:white}
+.ambulance-image figcaption span{display:block;color:var(--lima);font-size:9px;letter-spacing:.16em;margin-bottom:8px}
+.ambulance-image figcaption strong{font:600 27px var(--f-tit);letter-spacing:-.03em}
+.backing-description{color:var(--muted);font-size:18px;margin:24px 0}
+.backing-facts{display:flex;gap:40px;padding-block:24px;border-block:1px solid var(--line);margin-bottom:20px}
+.backing-facts strong{display:block;font:600 26px var(--f-tit);letter-spacing:-.04em}
+.backing-facts span{font-size:12px;color:var(--muted)}
+.faq-section{border-top:1px solid var(--line);padding-top:72px}
+.faq-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:80px}
+.faq-layout>div>p:not(.eyebrow){color:var(--muted)}
+.faq-list details{border-bottom:1px solid #c1cbd2}
+.faq-list details:first-child{border-top:1px solid #c1cbd2}
+.faq-list summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:24px;font-size:17px;font-weight:600;padding:24px 0;min-height:64px}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{content:'+';font-size:24px;font-weight:400;flex-shrink:0}
+.faq-list details[open] summary::after{content:'−'}
+.faq-list details p{margin:0 28px 24px 0;color:var(--muted);font-size:16px}
+.premium-cta{position:relative;isolation:isolate;overflow:hidden;background:var(--lima);padding-block:88px;text-align:center}
+.premium-cta .envoltura{position:relative;z-index:1}
+.premium-cta .eyebrow{color:var(--ink);margin-bottom:24px}
+.premium-cta h2{font-size:clamp(36px,4.5vw,62px)}
+.premium-cta h2 span{color:#33471b}
+.premium-cta .btn{margin-top:24px}
+.cta-note{font-size:12px;margin:20px 0 0;color:#34451d}
+.cta-watermark{position:absolute;bottom:-.3em;left:50%;transform:translateX(-50%);font:900 clamp(120px,25vw,360px) var(--f-tit);color:#0d1b2a07;letter-spacing:-.05em;z-index:0}
+.premium-footer{background:var(--ink);color:#a7b5c2;padding-block:56px 24px}
+.footer-top{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px;padding-bottom:40px}
+.footer-top p{font-size:14px;margin:16px 0 0}
+.footer-links{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px;align-content:start;font-size:14px}
+.footer-links a{text-decoration:none;min-height:24px}
+.footer-links a:hover{color:var(--lima)}
+.footer-contact>span{display:block;font-size:9px;letter-spacing:.16em;margin-bottom:12px}
+.footer-contact>a{font:600 24px var(--f-tit);color:white;text-decoration:none;letter-spacing:-.03em}
+.footer-contact p{font-size:12px;margin-top:8px}
+.footer-bottom{border-top:1px solid #ffffff20;padding-top:24px;display:flex;justify-content:space-between;gap:16px;font-size:11px}
+.footer-bottom a{color:var(--lima);font-weight:700;text-decoration:none}
+@media(min-width:1600px){.hero-layout{padding-block:80px 72px}.hero-art{height:600px}}
+@media(max-width:1100px){.biker-home .envoltura{padding-inline:28px}.biker-home .nav nav{gap:20px}.biker-home .nav nav a.oc{display:none}.hero-layout{gap:40px}.biker-home h1{font-size:clamp(44px,5.8vw,64px)}.hero-art{height:540px}.hero-actions{gap:16px}.hero-description{font-size:17px}.privacy-layout,.backing-layout,.faq-layout{gap:48px}.section-heading{gap:48px}.biker-home .logo{font-size:18px}.journey{gap:28px}}
+@media(max-width:760px){.biker-home .envoltura{padding-inline:24px}.biker-home .nav .envoltura{height:76px;gap:12px}.biker-home .logo{font-size:15px;gap:8px}.logo small{font-size:6px;letter-spacing:.12em}.brand-mark{width:32px;height:32px}.biker-home .nav .btn-chico{padding:10px 12px;font-size:12px;gap:10px}.biker-home .nav .btn-chico span{font-size:17px}.hero-layout{grid-template-columns:1fr;gap:40px;padding-block:44px 32px}.biker-home h1{font-size:clamp(42px,9.5vw,68px)}.hero-tagline{margin-top:24px;font-size:20px}.hero-description{max-width:45ch}.hero-art{height:480px;max-width:520px;width:100%;margin:auto}.hero-mascot{object-position:50% 39%}.chip-callout{left:-8px;bottom:100px}.hero-baseline{font-size:8px;gap:16px}.hero-baseline>a{gap:8px;white-space:nowrap}.benefit-strip .envoltura{grid-template-columns:1fr}.benefit-strip .envoltura>div{padding:16px 0;font-size:14px;border-bottom:1px solid #cbd3da}.benefit-strip .envoltura>div:last-child{border-bottom:0}.premium-section{padding-block:64px;scroll-margin-top:80px}.section-heading,.privacy-layout,.backing-layout,.faq-layout{grid-template-columns:1fr;gap:32px}.section-heading{margin-bottom:36px}.section-heading>p{max-width:44ch;font-size:17px}.biker-home h2{font-size:34px}.journey{grid-template-columns:1fr;gap:28px}.journey article{padding:24px 0 0 60px}.step-number{position:absolute;top:22px;left:0;font-size:28px;margin:0}.journey h3{font-size:21px}.journey p{max-width:46ch}.step-caption{margin-top:20px}.eyebrow{margin-bottom:20px;font-size:10px}.access-levels article{padding-block:24px}.ambulance-image{height:360px}.backing-layout{gap:36px}.backing-facts{gap:32px}.premium-cta{padding-block:64px}.premium-cta h2{font-size:36px}.premium-footer{padding-top:40px}.footer-top{grid-template-columns:1fr 1fr;gap:32px}.footer-top>div:first-child{grid-column:1/-1}.footer-links{grid-template-columns:1fr;gap:12px}.footer-contact>a{font-size:20px}.footer-bottom{flex-direction:column;gap:12px}.hero-assurance{font-size:11px}}
+@media(max-width:360px){.biker-home .envoltura{padding-inline:16px}.brand-mark{display:none}.biker-home .logo{font-size:14px}.biker-home .nav .btn-chico{font-size:11px}.biker-home h1{font-size:40px}.biker-home .btn{font-size:14px;padding:16px 18px}.hero-art{height:400px}.chip-callout{padding:14px 12px;gap:10px}.chip-callout strong{font-size:10px}.hero-baseline{letter-spacing:.06em}.backing-facts{gap:24px}.backing-facts strong{font-size:23px}.footer-contact>a{font-size:17px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.biker-home .btn{transition:none}.biker-home .btn:hover{transform:none}}
+.ambulance-image .official-seal{position:absolute;top:20px;left:20px;width:80px;height:80px;object-fit:contain;z-index:2;filter:drop-shadow(0 2px 8px #0d1b2a99)}

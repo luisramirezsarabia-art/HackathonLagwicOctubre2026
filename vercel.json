@@ -27,5 +27,11 @@
       "permanent": false,
       "source": "/e/DEMO2027"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/latido",
+      "schedule": "0 13 * * *"
+    }
   ]
 }

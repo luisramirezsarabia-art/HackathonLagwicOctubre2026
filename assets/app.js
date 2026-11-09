@@ -4,11 +4,17 @@ const KEY = 'sb_publishable_PKNGZbi_WZObhkGW3OkO-w_7lNfy7cZ';
 const ALERTIA_TEL = '+526692701810';
 
 async function rpc(nombre, datos) {
-  const r = await fetch(API + nombre, {
-    method: 'POST',
-    headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify(datos || {})
-  });
+  let r;
+  try {
+    r = await fetch(API + nombre, {
+      method: 'POST',
+      headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify(datos || {})
+    });
+  } catch (e) {
+    // Sin respuesta del servidor (red caída o base en pausa): mensaje entendible en vez de «Failed to fetch»
+    throw new Error('no hay conexión con el servidor de Alertia. Revisa tu internet e inténtalo en un minuto.');
+  }
   const txt = await r.text();
   const cuerpo = txt ? JSON.parse(txt) : null;
   if (!r.ok) throw new Error((cuerpo && cuerpo.message) || 'Error de conexión');
